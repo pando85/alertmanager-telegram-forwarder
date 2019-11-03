@@ -1,4 +1,4 @@
 aiolambda==0.3.1
-aiohttp>==
-aiohttp-swagger>==
-aiohttp_jinja2>==
+aiohttp==3.6.2
+aiohttp-swagger==1.0.9
+aiohttp-jinja2==1.2.0
