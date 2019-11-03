@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: Alertmanager Telegram forwarder
+  version: '1.0.0'
+  license:
+    name: "GPL-3.0"
+    url: "https://www.gnu.org/licenses/gpl-3.0.en.html"
+servers:
+  - url: "/v1"
+paths:
+  /:
+    post:
+      description: Forward alerts to Telegram
+      operationId: forwarder.handlers.forward_alerts
+      requestBody:
+        description: alerts to forward
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/alerts"
+      responses:
+        '200':
+          description: forwarder correctly
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/alerts"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+      - forward
+  /ping:
+    get:
+      description: Test service
+      operationId: forwarder.handlers.ping
+      responses:
+        '200':
+          description: successful operation
+      tags:
+      - ping
+components:
+  schemas:
+    alerts:
+      type: object
+      required:
+        - alerts
+        - externalURL
+        - receiver
+        - status
+        - version
+      properties:
+        alerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/alert"
+        commonAnnotations:
+          $ref: "#/components/schemas/labelSet"
+        commonLabels:
+          $ref: "#/components/schemas/labelSet"
+        externalURL:
+          type: string
+          format: uri
+        groupKey:
+          type: string
+        groupLabels:
+          $ref: "#/components/schemas/labelSet"
+        receiver:
+          type: string
+        status:
+          type: string
+          enum: [resolved, firing]
+        version:
+          type: string
+    alert:
+      type: object
+      required:
+        - annotations
+        - endsAt
+        - generatorURL
+        - labels
+        - startsAt
+      properties:
+        annotations:
+          $ref: "#/components/schemas/labelSet"
+        endsAt:
+          type: string
+          format: date-time
+        generatorURL:
+          type: string
+          format: uri
+        labels:
+          $ref: "#/components/schemas/labelSet"
+        startsAt:
+          type: string
+          format: date-time
+    labelSet:
+      type: object
+      additionalProperties:
+        type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

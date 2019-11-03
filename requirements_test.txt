@@ -1,0 +1,6 @@
+openapi-spec-validator
+pycodestyle
+flake8
+mypy
+coverage
+pytest-aiohttp
