@@ -28,14 +28,6 @@ matrix:
 
 jobs:
   include:
-    - stage: "update-dependencies"
-      if: branch = master AND type != pull_request AND tag IS NOT present
-      install:
-        - make requirements_test
-      script:
-        - bash .ci/update_dependencies.sh
-      env:
-        secure: "MEMH5LAQzxTPypstpGXwqH3wNxgyH9FWd2JhxNnGg730Pw7GtK+QkMexTzzoJCiXmYelbJHD+xeE5IQGprd6OU3/3+p/7fC6XD2hcNyA/IRJFLAdvto/wzGdCRx+BGxqpkyaKxWdrVds9LXtlSrWSUJ6kFeg4uUm2m19BEBZFH5nFpapDQILouLfIbWMN0JCXHhCEoTQVe1N5IqTONXwUBc9UgvVb8UNHlvJv8P2Hg3ckuE0aWbx6lS+fyKN0zOgJrA6Lolrm+M2eYoI3dZVcqdFpBqwPTCF3H6/JKYJnVeGXjKtDbZMd1F8JWNVCvFXLuHqZ1rCnYkNHzZDo8lHL79kzzQ1vZaQ0C6FKagmc3Skc2snddDuRNDeg2xN5QbM4aUquSWHtF3o+USAMjVkANCIZMGhAfpFdmwu4yU8K4DmMy0yG0589nt2we/HdJcbDIxCejPRtvfsUY0aY2rXyBIG82NovCSAzZGIoqSGZI0vrLNrKTtnGNmOb6gff9jdDBk0yY2ejoET9D8nAt1TpNFKMJz6y7skFbf5RQsnGo3SQ4nDIg1kWgSmTEAIrMBqZUGxBCbHwCYMQUhhg2XbTIYWM9KElo2PoH+PQx5ZNYIWvGeZP7gYx9JhmbgD2mAHhUoobCpKNuC4gKXuJydqAo6TpyaRdYaM+VCZMiITqPE="
     - stage: "tag version"
       if: branch = master AND type != pull_request AND tag IS NOT present
       script:
