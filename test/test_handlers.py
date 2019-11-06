@@ -12,10 +12,10 @@ def cli(loop, aiohttp_client):
     return loop.run_until_complete(aiohttp_client(app.app))
 
 
-async def test_forward_alerts(cli, alerts_all_ok):
-    resp = await cli.post(f'{BASE_URL}/alerts/1234567', json=alerts_all_ok)
+async def test_forward_alerts(cli, chat_id, alerts_all_ok_dict):
+    resp = await cli.post(f'{BASE_URL}/alerts/{chat_id}', json=alerts_all_ok_dict)
     assert resp.status == 200
-    assert await resp.json() == alerts_all_ok
+    assert await resp.json() == alerts_all_ok_dict
 
 
 async def test_ping(cli):
