@@ -8,10 +8,17 @@ info:
 servers:
   - url: "/v1"
 paths:
-  /:
+  /alerts/{chat_id}:
     post:
       description: Forward alerts to Telegram
       operationId: forwarder.handlers.forward_alerts
+      parameters:
+        - name: chat_id
+          in: path
+          required: true
+          description: The chat id to forward to Telegram
+          schema:
+            type: integer
       requestBody:
         description: alerts to forward
         required: true
@@ -81,9 +88,9 @@ components:
       required:
         - annotations
         - endsAt
-        - generatorURL
         - labels
         - startsAt
+        - status
       properties:
         annotations:
           $ref: "#/components/schemas/labelSet"
@@ -98,6 +105,9 @@ components:
         startsAt:
           type: string
           format: date-time
+        status:
+          type: string
+          enum: [resolved, firing]
     labelSet:
       type: object
       additionalProperties:
