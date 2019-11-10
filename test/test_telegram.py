@@ -2,6 +2,7 @@ import pytest
 
 from aiohttp import web
 
+from forwarder.errors import ResponseError
 from forwarder.telegram import send_alert
 
 
@@ -22,10 +23,17 @@ def get_fake_telegram():
 @pytest.fixture
 def fake_telegram_cli(loop, aiohttp_client):
     app = get_fake_telegram()
-    server_config = {}
-    return loop.run_until_complete(aiohttp_client(app, server_kwargs=server_config))
+    return loop.run_until_complete(aiohttp_client(app))
 
 
 async def test_send_to_telegram(fake_telegram_cli, chat_id, alert_ok):
     alert_response = await send_alert(fake_telegram_cli, chat_id, alert_ok, '')
     assert alert_response == alert_ok
+
+
+async def test_send_to_telegram_fail(fake_telegram_cli, chat_id, alert_ok):
+    alert_response = await send_alert(fake_telegram_cli, chat_id, alert_ok, '404')
+    expected_result = ResponseError(404, '404: Not Found')
+    assert isinstance(alert_response, ResponseError)
+    assert alert_response.status_code == expected_result.status_code
+    assert alert_response.message == expected_result.message
