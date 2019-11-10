@@ -1,9 +1,12 @@
 from aiohttp.web import Response, json_response
-
 from aiolambda.typing import Maybe
+
+from forwarder.errors import ResponseError
 
 
 def return_error(error: Exception) -> Response:
+    if isinstance(error, ResponseError):
+        return json_response(error.message, status=error.status_code)
     return json_response('Unknow error', status=500)
 
 

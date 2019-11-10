@@ -88,6 +88,7 @@ components:
       required:
         - annotations
         - endsAt
+        - fingerprint
         - labels
         - startsAt
         - status
@@ -97,6 +98,8 @@ components:
         endsAt:
           type: string
           format: date-time
+        fingerprint:
+          type: string
         generatorURL:
           type: string
           format: uri
