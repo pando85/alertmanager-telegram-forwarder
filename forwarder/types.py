@@ -1,7 +1,8 @@
-from typing import Dict, List, NamedTuple
+from typing import Dict, List, NamedTuple, Union
 
 
 Labels = Dict[str, str]
+Json = Union[dict, list, str]
 
 
 class Alert(NamedTuple):
