@@ -8,10 +8,10 @@ Json = Union[dict, list, str]
 class Alert(NamedTuple):
     annotations: Labels
     endsAt: str
-    fingerprint: str
     labels: Labels
     startsAt: str
     status: str
+    fingerprint: str = ''
     generatorURL: str = ''
 
 
