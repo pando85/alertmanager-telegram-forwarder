@@ -1,6 +1,7 @@
 import pytest
 
-from aiolambda.app import get_app
+from forwarder.app import get_app
+from forwarder.telegram import setup_telegram_client
 
 
 BASE_URL = '/v1'
@@ -8,7 +9,7 @@ BASE_URL = '/v1'
 
 @pytest.fixture
 def cli(loop, aiohttp_client):
-    app = get_app()
+    app = get_app(setup_telegram_client(''))
     return loop.run_until_complete(aiohttp_client(app.app))
 
 

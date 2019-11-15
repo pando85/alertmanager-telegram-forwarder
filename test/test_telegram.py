@@ -3,7 +3,7 @@ import pytest
 from aiohttp import web
 
 from forwarder.errors import ResponseError
-from forwarder.telegram import send_alert
+from forwarder.telegram import send_alerts
 
 
 async def fake_send(request):
@@ -37,17 +37,39 @@ def get_fake_telegram():
 @pytest.fixture
 def fake_telegram_cli(loop, aiohttp_client):
     app = get_fake_telegram()
-    return loop.run_until_complete(aiohttp_client(app))
+    session = loop.run_until_complete(aiohttp_client(app))
+    bot_endpoint = f'/botMOCK_TOKEN/sendMessage'
+
+    async def send_to_telegram(message: dict):
+        async with session.post(bot_endpoint, json=message) as resp:
+            if resp.status != 200:
+                return ResponseError(resp.status, await resp.json())
+        return message
+    return send_to_telegram
 
 
-async def test_send_to_telegram(fake_telegram_cli, chat_id, alert_ok):
-    alert_response = await send_alert(fake_telegram_cli, chat_id, alert_ok, '')
-    assert alert_response == alert_ok
+@pytest.fixture
+def fake_telegram_cli_fail(loop, aiohttp_client):
+    app = get_fake_telegram()
+    session = loop.run_until_complete(aiohttp_client(app))
+    bot_endpoint = f'/notFound'
+
+    async def send_to_telegram(message: dict):
+        async with session.post(bot_endpoint, json=message) as resp:
+            if resp.status != 200:
+                return ResponseError(resp.status, await resp.json())
+        return message
+    return send_to_telegram
 
 
-async def test_send_to_telegram_fail(fake_telegram_cli, chat_id, alert_ok):
-    alert_response = await send_alert(fake_telegram_cli, chat_id, alert_ok, 'bad_url')
+async def test_send_to_telegram(fake_telegram_cli, chat_id, alerts_all_ok):
+    alerts_response = await send_alerts(fake_telegram_cli, chat_id, alerts_all_ok)
+    assert alerts_response == alerts_all_ok
+
+
+async def test_send_to_telegram_fail(fake_telegram_cli_fail, chat_id, alerts_all_ok):
+    alerts_response = await send_alerts(fake_telegram_cli_fail, chat_id, alerts_all_ok)
     expected_result = ResponseError(404, {'error': 'Not Found'})
-    assert isinstance(alert_response, ResponseError)
-    assert alert_response.status_code == expected_result.status_code
-    assert alert_response.message == expected_result.message
+    assert isinstance(alerts_response, ResponseError)
+    assert alerts_response.status_code == expected_result.status_code
+    assert alerts_response.message == expected_result.message
