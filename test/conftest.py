@@ -5,7 +5,7 @@ from aiohttp import web
 
 from forwarder.errors import ResponseError
 
-from forwarder.types import Alerts
+from forwarder.typing import Alerts
 
 DATA_PATH = 'test/data'
 

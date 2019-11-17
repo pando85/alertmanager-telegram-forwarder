@@ -1,4 +1,4 @@
-from forwarder.types import Alert, Alerts
+from forwarder.typing import Alert, Alerts
 
 
 def test_alerts(alerts_all_ok):

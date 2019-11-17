@@ -1,6 +1,5 @@
-from aiolambda.logger import access_logger
-
 from forwarder.app import get_app
+from forwarder.logger import access_logger
 from forwarder.telegram import setup_telegram_client
 
 

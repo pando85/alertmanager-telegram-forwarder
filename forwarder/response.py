@@ -1,6 +1,6 @@
 from aiohttp.web import Response, json_response
-from aiolambda.typing import Maybe
 
+from forwarder.typing import Maybe
 from forwarder.errors import ResponseError
 
 
