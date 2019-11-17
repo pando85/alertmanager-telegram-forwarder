@@ -1,13 +1,9 @@
-import asyncio
 import connexion
-import uvloop
 import os
 
-from aiolambda.config import API_SPECS_PATH
 from typing import Callable
 
-
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+from forwarder.config import API_SPECS_PATH
 
 
 def get_app(setup_telegram_client: Callable) -> connexion.AioHttpApp:

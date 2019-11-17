@@ -1,11 +1,10 @@
 from aiofunctools import compose
 from aiohttp.web import Response
 
-from aiolambda import logger
-
+from forwarder import logger
 from forwarder.response import return_200
 from forwarder.telegram import send_alerts
-from forwarder.types import Alerts
+from forwarder.typing import Alerts
 
 
 async def forward_alerts(chat_id, **extra_args) -> Response:

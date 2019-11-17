@@ -1,5 +1,8 @@
-from typing import Dict, List, NamedTuple, Union
+from typing import Dict, List, NamedTuple, TypeVar, Union
 
+
+X = TypeVar('X')
+Maybe = Union[X, Exception]
 
 Labels = Dict[str, str]
 Json = Union[dict, list, str]

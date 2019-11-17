@@ -1,12 +1,11 @@
 import aiohttp
 
-from aiolambda.typing import Maybe
 from aiofunctools import bind
 from typing import Callable
 from toolz import curry
 
 from forwarder.config import TELEGRAM_BOT_TOKEN
-from forwarder.types import Alerts
+from forwarder.typing import Alerts, Maybe
 from forwarder.errors import ResponseError
 
 

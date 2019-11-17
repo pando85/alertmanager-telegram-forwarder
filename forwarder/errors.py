@@ -1,4 +1,4 @@
-from forwarder.types import Json
+from forwarder.typing import Json
 
 
 class ResponseError(Exception):
