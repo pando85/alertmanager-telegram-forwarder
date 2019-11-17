@@ -23,5 +23,9 @@
     }
   ],
   "externalURL": "my.prometheusalertmanager.url",
+  "commonAnnotations": {},
+  "commonLabels": {},
+  "groupKey": "",
+  "groupLabels": {},
   "version": "4"
 }

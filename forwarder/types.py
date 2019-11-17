@@ -34,3 +34,8 @@ class Alerts(NamedTuple):
             alerts=alerts,
             **_dict
         )
+
+    def as_dict(self):
+        _dict = self._asdict()
+        _dict['alerts'] = list(map(lambda x: x._asdict(), self.alerts))
+        return _dict

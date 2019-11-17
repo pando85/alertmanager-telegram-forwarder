@@ -14,6 +14,7 @@ async def forward_alerts(chat_id, **extra_args) -> Response:
         logger.debug,
         send_alerts(extra_args['request'].app['telegram_client'], chat_id),
         logger.debug,
+        lambda x: x.as_dict(),
         return_200)(await extra_args['request'].json())
 
 
