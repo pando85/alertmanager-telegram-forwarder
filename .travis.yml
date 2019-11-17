@@ -46,6 +46,8 @@ jobs:
       deploy:
         - provider: script
           script: bash .ci/deploy.sh
+          on:
+            all_branches: true
       env:
         # workaround arm64: https://travis-ci.community/t/error-occurs-when-deploy-to-github-release-you-dont-have-write-permissions-for-the-var-lib-gems-2-5-0-directory/5840
         - PATH=~/.ruby/bin:$PATH
@@ -58,5 +60,7 @@ jobs:
       deploy:
         - provider: script
           script: bash .ci/deploy.sh
+          on:
+            all_branches: true
       env:
         secure: "qbb++AinSY+RZnGbVd+ZXP0n9p6ZeWQfR/3HzkXyFXN4IHn95gqxBYUeTQokEUDBJEnzgO5Ga1xTZbg3kHBe3fou2aP6v3GDLXv9vxQdh5L3iRpHZIjXlkaVQ+B2AzwwPKlMEuF8dPskmPUxUN0YchePPE9S+SCSqt7AmYWbpJlOsTnnQpH8SXx1O8wLNaLOHd/Pew/+Ln35AtH/S1w/0ps+KJtvl8HhTGQwUh6BBGg9yjKSY/VFbMJ5BIkc4UCQmoHvwnmwqwDq0nTUvYEBhjoUCSJQGqEr5dBlKxNmJ07g6kEsplShkilKxlkZTWMlwYp1vq1zjXqT25TqiXXrPVO86lQg0giJ74fzoF3Fx06nXwS3oAuX90vc1GJvI3gbkZQ3Jp0FCQWPWMIoNiDxszp7c6Z1l6Dxe2394Y8RogKPi6DomDFBvspqIdhlCwdQKG71arvtzj/b1xGqSnaTSsmJSOW5Vwumog7cGBH+HW0ZXqduanBjGL7QovBE3FTI4xvsc4RnjejYWhsKH/KF6DjqhVcATk+w4i5s2CpJoCEJTjVKPpNN/0DN8wcBCBLqIMQaL9HsEgpz7HsC9OYpV4kFTDzlH0bbDsBPTgGKu5sHReLzoRiHXZKjNiKK69vwuEjGaCIE8XDlq5k4i3L4eL89rZtzrFHM9eucrfMQvXA="
