@@ -5,6 +5,7 @@ from typing import Callable
 from toolz import curry
 
 from forwarder.config import TELEGRAM_BOT_TOKEN
+from forwarder.format import get_message
 from forwarder.typing import Alerts, Maybe
 from forwarder.errors import ResponseError
 
@@ -31,7 +32,8 @@ async def send_alerts(client: Callable, chat_id: int, alerts: Alerts) -> Maybe[A
     for alert in alerts.alerts:
         message = {
             'chat_id': chat_id,
-            'text': str(alert),
+            'text': get_message(alert),
+            'parse_mode': 'Markdown',
         }
         maybe_message = await client(message)
         if isinstance(maybe_message, ResponseError):

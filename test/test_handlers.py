@@ -20,7 +20,9 @@ def cli(loop, aiohttp_client, fake_telegram_cli):
 
 
 async def test_forward_alerts(cli, chat_id, alerts_all_ok_dict):
+    print(alerts_all_ok_dict)
     resp = await cli.post(f'{BASE_URL}/alerts/{chat_id}', json=alerts_all_ok_dict)
+    print(resp)
     assert resp.status == 200
     assert await resp.json() == alerts_all_ok_dict
 
