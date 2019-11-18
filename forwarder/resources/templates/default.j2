@@ -1,0 +1,12 @@
+{%- set
+  emojis = {
+    'resolved' : '✅',
+    'critical' : '🔴',
+    'severe' : '🔴',
+    'warning' : '⚠️',
+    'unknown' : '⚪️'
+  }
+-%}
+{{ emojis[alert.status] }} *{{ alert.annotations.summary }}*
+_{{ alert.annotations.description }}_
+
