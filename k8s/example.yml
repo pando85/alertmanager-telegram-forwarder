@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+data:
+  message.j2: |
+    {%- set
+      emojis = {
+        'resolved' : '✅',
+        'critical' : '🔴',
+        'severe' : '🔴',
+        'warning' : '⚠️',
+        'unknown' : '⚪️'
+      }
+    -%}
+    {%- if alert.status == 'resolved' -%}
+    {{ emojis[alert.status] }}
+    {%- else -%}
+    {{ emojis[alert.labels.severity] }}
+    {%- endif -%}
+     *{{ alert.labels.alertname }}*
+    _{{ alert.annotations.message }}_
+    [Prometheus]({{ alert.generatorURL }})
+    {% if 'runbook_url' in alert.annotations -%}
+    [Runbook URL]({{ alert.annotations.runbook_url }})
+    {%- endif -%}
+kind: ConfigMap
+metadata:
+  name: alertmanager-forwarder-template
+  namespace: monitoring
+
+---
+apiVersion: v1
+data:
+  token: MDAwMDAwMDAwOmFhYWFhYWFhYWFhYWEtYWFhYTAwYWFhYTAwMGEwYWFhMGFhCg==
+kind: Secret
+metadata:
+  name: telegram-bot
+  namespace: monitoring
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: 'true'
+  labels:
+    app: alertmanager-telegram-forwarder
+  name: alertmanager-telegram-forwarder
+  namespace: monitoring
+spec:
+  ports:
+  - name: alertmanager-telegram-forwarder
+    port: 8080
+    targetPort: http
+  selector:
+    app: alertmanager-telegram-forwarder
+  type: ClusterIP
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alertmanager-telegram-forwarder
+  namespace: monitoring
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: alertmanager-telegram-forwarder
+      labels:
+        app: alertmanager-telegram-forwarder
+    spec:
+      containers:
+      - name: alertmanager-telegram-forwarder
+        image: pando85/alertmanager-telegram-forwarder:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+          - name: TELEGRAM_BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: telegram-bot
+                key: token
+          - name: TEMPLATE_PATH
+            value: "/etc/forwarder/message.j2"
+        resources:
+          limits:
+            memory: 128M
+          requests:
+            cpu: 100m
+            memory: 40M
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /v1/ping
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /etc/forwarder
+          name: alertmanager-forwarder-template
+      volumes:
+      - name: alertmanager-forwarder-template
+        configMap:
+          name: alertmanager-forwarder-template
+
