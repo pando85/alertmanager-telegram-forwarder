@@ -1,6 +1,7 @@
 {
   "receiver": "test_webhook",
   "status": "resolved",
+  "truncatedAlerts": 0,
   "alerts": [
     {
       "status": "resolved",

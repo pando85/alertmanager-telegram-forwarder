@@ -24,6 +24,7 @@ class Alerts(NamedTuple):
     receiver: str
     status: str
     version: str
+    truncatedAlerts: int
     commonAnnotations: Labels = {}
     commonLabels: Labels = {}
     groupKey: str = ''

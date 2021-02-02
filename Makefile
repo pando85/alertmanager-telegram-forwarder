@@ -3,7 +3,6 @@
 APP := forwarder
 WORKON_HOME ?= .venv
 VENV_BASE := $(WORKON_HOME)/${APP}
-VENV_ACTIVATE := $(VENV_BASE)/bin/activate
 PYTHON := ${VENV_BASE}/bin/python3
 
 CONTAINER_CMD?=docker

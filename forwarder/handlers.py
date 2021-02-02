@@ -9,6 +9,7 @@ from forwarder.typing import Alerts
 
 async def forward_alerts(chat_id, **extra_args) -> Response:
     return await compose(
+        logger.debug,
         Alerts.from_dict,
         logger.debug,
         send_alerts(extra_args['request'].app['telegram_client'], chat_id),

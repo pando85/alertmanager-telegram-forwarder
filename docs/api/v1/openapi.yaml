@@ -59,6 +59,7 @@ components:
         - externalURL
         - receiver
         - status
+        - truncatedAlerts
         - version
       properties:
         alerts:
@@ -81,6 +82,8 @@ components:
         status:
           type: string
           enum: [resolved, firing]
+        truncatedAlerts:
+          type: integer
         version:
           type: string
     alert:
