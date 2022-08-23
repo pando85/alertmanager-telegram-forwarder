@@ -1,3 +1,7 @@
+# ⚠️ This project is deprecated ⚠️
+
+Alertmanager v0.24+ has Telegram support out of the box. Going forward, please simply use [Alertmanager](https://prometheus.io/docs/alerting/latest/configuration/#telegram_config) instead of this bot.
+
 # alertmanager-telegram-forwarder [![Build Status](https://travis-ci.org/pando85/alertmanager-telegram-forwarder.svg?branch=master)](https://travis-ci.org/pando85/alertmanager-telegram-forwarder)  [![](https://images.microbadger.com/badges/image/pando85/alertmanager-telegram-forwarder.svg)](https://cloud.docker.com/repository/docker/pando85/alertmanager-telegram-forwarder) [![](https://images.microbadger.com/badges/version/pando85/alertmanager-telegram-forwarder.svg)](https://cloud.docker.com/repository/docker/pando85/alertmanager-telegram-forwarder) [![License](https://img.shields.io/github/license/pando85/alertmanager-telegram-forwarder.svg)](https://github.com/pando85/alertmanager-telegram-forwarder/blob/master/LICENSE)
 
 Alertmanager webhook to forward notifications to telegram using templates and based in [OpenAPI specs](docs/api/v1/openapi.yaml).
